@@ -1,0 +1,288 @@
+import React, { useLayoutEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ArrowDownCircle, Mail, Phone, MapPin, Download, Rocket, Briefcase, Award, TrendingUp } from 'lucide-react';
+import { EXPERIENCES, CLIENTS, SKILLS } from './constants';
+import { HandDrawnArrow, CurvedArrow } from './components/HandDrawnArrow';
+
+// Register GSAP Plugin
+gsap.registerPlugin(ScrollTrigger);
+
+const App: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const heroNameRef = useRef<HTMLHeadingElement>(null);
+  const characterRef = useRef<HTMLDivElement>(null);
+  const leftPanelRef = useRef<HTMLDivElement>(null);
+  const rightPanelRef = useRef<HTMLDivElement>(null);
+  const clientsPanelRef = useRef<HTMLDivElement>(null);
+  const contactPanelRef = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Initial Setup
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1.5, // Smooth scrubbing effect
+        },
+      });
+
+      // --- SEQUENCE 0: HERO FADE OUT ---
+      // Name fades back and scales down slightly
+      tl.to(heroNameRef.current, {
+        opacity: 0.1,
+        scale: 0.8,
+        y: -100,
+        duration: 2,
+        ease: "power2.inOut"
+      }, "start");
+
+      // Scroll Indicator fades out immediately
+      tl.to(scrollIndicatorRef.current, {
+        opacity: 0,
+        duration: 0.5
+      }, "start");
+
+      // Character "Wakes Up" - scales up slightly and moves down a bit to anchor
+      tl.to(characterRef.current, {
+        scale: 1.1,
+        y: 50,
+        filter: "brightness(1.1)",
+        duration: 4,
+        ease: "power1.inOut"
+      }, "start");
+
+
+      // --- SEQUENCE 1: THE GATE OPENS (Experience & DNA) ---
+      // Left Panel slides in from left
+      tl.fromTo(leftPanelRef.current, 
+        { x: "-120%", opacity: 0 },
+        { x: "0%", opacity: 1, duration: 5, ease: "power2.out" },
+        "scene1"
+      );
+
+      // Right Panel slides in from right
+      tl.fromTo(rightPanelRef.current,
+        { x: "120%", opacity: 0 },
+        { x: "0%", opacity: 1, duration: 5, ease: "power2.out" },
+        "scene1"
+      );
+
+      // --- SEQUENCE 2: CLIENTS & EXTRA SKILLS ---
+      // Clients panel slides up from bottom left
+      tl.fromTo(clientsPanelRef.current,
+        { y: "150%", opacity: 0, scale: 0.8 },
+        { y: "0%", opacity: 1, scale: 1, duration: 4, ease: "back.out(1.2)" },
+        "scene2"
+      );
+
+      // --- SEQUENCE 3: CONTACT REVEAL ---
+      // Fade out content slightly to focus on contact overlay (simulated by scale up of contact button)
+      tl.fromTo(contactPanelRef.current,
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 2, ease: "power2.out" },
+        "scene3"
+      );
+
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div className="bg-neutral-900 text-white selection:bg-lime-400 selection:text-black">
+      {/* 
+        SCROLL SPACER 
+        This div provides the physical height for the scrollbar. 
+        The actual content is sticky inside.
+      */}
+      <div ref={containerRef} className="h-[400vh] relative">
+        
+        {/* STICKY VIEWPORT - Content lives here */}
+        <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center">
+
+          {/* BACKGROUND LAYER: Massive Name */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+            <h1 
+              ref={heroNameRef}
+              className="font-display text-[15vw] md:text-[16vw] leading-none text-neutral-800 uppercase tracking-tighter text-center whitespace-nowrap opacity-100 mix-blend-color-dodge select-none"
+            >
+              ГРЖИМАЙЛО <br className="hidden md:block" /> РОБЕРТ
+            </h1>
+          </div>
+
+          {/* MIDDLE LAYER: The Character (Central Figure) */}
+          <div 
+            ref={characterRef}
+            className="absolute z-10 w-full h-full flex items-end justify-center pointer-events-none pb-0"
+          >
+             {/* 
+               ВАШЕ ФОТО:
+               Для идеального результата используйте PNG с прозрачным фоном.
+             */}
+            <div className="relative w-auto h-[70vh] md:h-[90vh] flex justify-center items-end">
+               {/* 
+                 Здесь стоит изображение-плейсхолдер.
+                 Замените src на ваше фото без фона (Transparent PNG).
+               */}
+               <img 
+                 src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1887&auto=format&fit=crop" 
+                 alt="Роберт Гржимайло"
+                 className="h-full w-auto object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] grayscale hover:grayscale-0 transition-all duration-700"
+                 style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}
+               />
+               
+               {/* Overlay Name for context if hero text fades too much */}
+               <div className="absolute bottom-10 w-full text-center px-4 z-20">
+                  <p className="text-lime-400 font-bold tracking-[0.3em] text-xs md:text-sm drop-shadow-lg uppercase bg-neutral-900/50 inline-block px-4 py-2 rounded-full backdrop-blur-sm border border-white/10">
+                    Business Development Manager
+                  </p>
+               </div>
+
+               {/* Gradient overlay to blend bottom of torso into page if photo cuts off abruptly */}
+               <div className="absolute bottom-0 left-[-50%] right-[-50%] h-32 bg-gradient-to-t from-neutral-900 via-neutral-900/80 to-transparent z-10"></div>
+            </div>
+          </div>
+
+          {/* FRONT LAYER: The Content Gates */}
+          
+          {/* LEFT PANEL: Creative DNA */}
+          <div 
+            ref={leftPanelRef}
+            className="absolute left-0 top-0 h-full w-full md:w-1/3 p-6 md:p-12 flex flex-col justify-center z-20 pointer-events-auto"
+          >
+            <div className="bg-neutral-900/80 backdrop-blur-md border border-white/10 p-8 rounded-3xl shadow-2xl transform md:-rotate-2 transition-transform hover:rotate-0 duration-500 group">
+              <div className="flex items-center gap-3 mb-6">
+                 <div className="p-2 bg-lime-400 rounded-full text-black shadow-[0_0_15px_rgba(163,230,53,0.5)]">
+                   <TrendingUp size={24} />
+                 </div>
+                 <h2 className="font-display text-3xl uppercase tracking-wide">Профессиональное ДНК</h2>
+              </div>
+
+              <div className="space-y-6 text-neutral-300">
+                <div className="flex justify-between">
+                    <div>
+                       <p className="text-4xl font-bold text-white mb-1">12+</p>
+                       <p className="text-[10px] uppercase tracking-wider text-neutral-500">Лет опыта</p>
+                    </div>
+                    <div className="text-right">
+                       <p className="text-4xl font-bold text-lime-400 mb-1">4</p>
+                       <p className="text-[10px] uppercase tracking-wider text-neutral-500">Запуска с «0»</p>
+                    </div>
+                </div>
+                
+                <p className="leading-relaxed border-t border-white/10 pt-6 mt-6 text-sm">
+                  <span className="text-white font-semibold">Нахожу возможности для роста и превращаю их в прибыль.</span>
+                </p>
+                <p className="leading-relaxed text-sm">
+                  Запускаю проекты, вывожу бизнесы на самоокупаемость и масштабирую продажи. Увеличивал выручку на <span className="text-lime-400 font-bold">23-48%</span> в HoReCa и генерировал <span className="text-lime-400 font-bold">10M+</span> в IT-продажах.
+                </p>
+
+                <div className="relative pt-4">
+                   <HandDrawnArrow className="w-16 h-16 text-lime-400 absolute -right-4 -top-4 rotate-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                   <div className="flex flex-wrap gap-2">
+                     <span className="text-xs bg-white/10 px-2 py-1 rounded">Problem Solver</span>
+                     <span className="text-xs bg-white/10 px-2 py-1 rounded">Startupper</span>
+                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* MEGA CLIENTS */}
+            <div ref={clientsPanelRef} className="mt-8 bg-neutral-900/90 border border-white/10 p-6 rounded-2xl backdrop-blur-sm">
+               <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-4 flex items-center gap-2">
+                 <Award size={14} className="text-lime-400" /> Проекты & Компании
+               </h3>
+               <div className="grid grid-cols-2 gap-2 opacity-80">
+                 {CLIENTS.map((client) => (
+                   <div key={client} className="text-[11px] font-semibold text-center p-2 bg-white/5 rounded hover:bg-white/10 hover:text-lime-400 transition-colors cursor-default border border-transparent hover:border-lime-400/30">
+                     {client}
+                   </div>
+                 ))}
+               </div>
+            </div>
+          </div>
+
+          {/* RIGHT PANEL: Creative Journey */}
+          <div 
+             ref={rightPanelRef}
+             className="absolute right-0 top-0 h-full w-full md:w-1/3 p-6 md:p-12 flex flex-col justify-center z-20 pointer-events-auto"
+          >
+             <div className="bg-neutral-900/80 backdrop-blur-md border border-white/10 p-8 rounded-3xl shadow-2xl transform md:rotate-2 transition-transform hover:rotate-0 duration-500 h-fit max-h-[85vh] overflow-y-auto custom-scrollbar">
+                <div className="flex items-center gap-3 mb-8">
+                   <div className="p-2 bg-white text-black rounded-full shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                     <Briefcase size={24} />
+                   </div>
+                   <h2 className="font-display text-3xl uppercase tracking-wide">Карьерный Путь</h2>
+                </div>
+                
+                <div className="relative border-l border-white/10 ml-3 space-y-8 pl-8">
+                   {EXPERIENCES.map((job, idx) => (
+                     <div key={idx} className="relative group">
+                        {/* Timeline Dot */}
+                        <div className="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-neutral-900 border-2 border-lime-400 group-hover:bg-lime-400 group-hover:shadow-[0_0_10px_rgba(163,230,53,0.8)] transition-all"></div>
+                        
+                        <h3 className="font-bold text-base text-white group-hover:text-lime-400 transition-colors uppercase">{job.role}</h3>
+                        <p className="text-neutral-300 text-sm font-semibold">{job.company}</p>
+                        <div className="flex items-center gap-2 text-xs text-neutral-500 mt-1">
+                           <span>{job.period}</span>
+                        </div>
+                        <div className="inline-block mt-2 px-2 py-0.5 rounded bg-white/5 text-[10px] text-neutral-400 border border-white/5">
+                           {job.type}
+                        </div>
+                     </div>
+                   ))}
+                </div>
+
+                <div className="mt-10 pt-6 border-t border-white/10">
+                   <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-4 flex items-center gap-2"><Rocket size={14}/> Навыки</h3>
+                   <div className="flex flex-wrap gap-2">
+                      {SKILLS.map(skill => (
+                        <span key={skill} className="px-3 py-1 bg-white/5 rounded-full text-xs text-neutral-300 border border-white/5 hover:border-lime-400/50 hover:text-white transition-colors cursor-default">
+                          {skill}
+                        </span>
+                      ))}
+                   </div>
+                </div>
+             </div>
+          </div>
+
+          {/* SCROLL INDICATOR (Fades out) */}
+          <div ref={scrollIndicatorRef} className="absolute bottom-10 z-30 flex flex-col items-center gap-2 animate-bounce mix-blend-difference">
+             <p className="text-xs uppercase tracking-widest text-neutral-500">История Успеха</p>
+             <ArrowDownCircle className="text-lime-400 w-8 h-8" />
+          </div>
+
+          {/* FOOTER / CONTACT (Always visible late scroll) */}
+          <div ref={contactPanelRef} className="absolute bottom-6 md:bottom-12 right-6 md:right-12 z-50 flex flex-col gap-4 items-end">
+             <button className="group relative flex items-center gap-3 bg-lime-400 text-neutral-900 px-6 py-3 rounded-full font-bold hover:bg-white transition-all shadow-[0_0_20px_rgba(163,230,53,0.3)]">
+                <span className="uppercase tracking-wide">Скачать PDF</span>
+                <Download size={20} className="group-hover:translate-y-1 transition-transform" />
+             </button>
+             
+             <div className="bg-neutral-900/90 backdrop-blur border border-white/10 p-4 rounded-xl flex flex-col gap-2 text-sm text-neutral-400 min-w-[250px] shadow-2xl">
+                <a href="mailto:rob.akimbo@mail.ru" className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer group">
+                  <Mail size={16} className="text-lime-400 group-hover:text-white transition-colors" /> rob.akimbo@mail.ru
+                </a>
+                <a href="tel:+79625630763" className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer group">
+                  <Phone size={16} className="text-lime-400 group-hover:text-white transition-colors" /> +7 (962) 563-07-63
+                </a>
+                <div className="flex items-center gap-3 hover:text-white transition-colors cursor-pointer group">
+                  <MapPin size={16} className="text-lime-400 group-hover:text-white transition-colors" /> Москва, Россия
+                </div>
+             </div>
+          </div>
+
+          {/* DECORATIVE ELEMENTS */}
+          <CurvedArrow className="absolute top-[20%] right-[25%] w-24 h-24 text-lime-400 opacity-20 rotate-45 pointer-events-none" />
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;
