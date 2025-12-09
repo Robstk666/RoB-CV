@@ -278,64 +278,66 @@ const App: React.FC = () => {
 
           {/* FRONT LAYER: The Content Gates */}
           
-          {/* LEFT PANEL: Creative DNA */}
+          {/* LEFT PANEL: Creative DNA & Projects */}
           <div 
             ref={leftPanelRef}
-            className="absolute left-0 top-0 h-full w-full md:w-1/3 p-6 md:p-12 flex flex-col justify-center z-20 pointer-events-auto"
+            className="absolute left-0 top-0 h-full w-full md:w-1/3 p-6 md:p-12 flex flex-col justify-start md:justify-center z-20 pointer-events-auto overflow-y-auto custom-scrollbar"
           >
-            <div className="bg-neutral-900/80 backdrop-blur-md border border-white/10 p-8 rounded-3xl shadow-2xl transform md:-rotate-2 transition-transform hover:rotate-0 duration-500 group">
-              <div className="flex items-center gap-3 mb-6">
-                 <div className="p-2 bg-lime-400 rounded-full text-black shadow-[0_0_15px_rgba(163,230,53,0.5)]">
-                   <TrendingUp size={24} />
-                 </div>
-                 <h2 className="font-display text-3xl uppercase tracking-wide">Профессиональное ДНК</h2>
-              </div>
-
-              <div className="space-y-6 text-neutral-300">
-                <div className="flex justify-between">
-                    <div>
-                       <p className="text-4xl font-bold text-white mb-1">12+</p>
-                       <p className="text-[10px] uppercase tracking-wider text-neutral-500">Лет опыта</p>
-                    </div>
-                    <div className="text-right">
-                       <p className="text-4xl font-bold text-lime-400 mb-1">4</p>
-                       <p className="text-[10px] uppercase tracking-wider text-neutral-500">Запуска с «0»</p>
-                    </div>
-                </div>
-                
-                <p className="leading-relaxed border-t border-white/10 pt-6 mt-6 text-sm">
-                  <span className="text-white font-semibold">Нахожу возможности для роста и превращаю их в прибыль.</span>
-                </p>
-                <p className="leading-relaxed text-sm">
-                  Запускаю проекты, вывожу бизнесы на самоокупаемость и масштабирую продажи. Увеличивал выручку на <span className="text-lime-400 font-bold">23-48%</span> в HoReCa и генерировал <span className="text-lime-400 font-bold">10M+</span> в IT-продажах.
-                </p>
-
-                <div className="relative pt-4">
-                   <HandDrawnArrow className="w-16 h-16 text-lime-400 absolute -right-4 -top-4 rotate-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                   <div className="flex flex-wrap gap-2">
-                     <span className="text-xs bg-white/10 px-2 py-1 rounded">Problem Solver</span>
-                     <span className="text-xs bg-white/10 px-2 py-1 rounded">Startupper</span>
+            <div className="my-auto min-h-min">
+              <div className="bg-neutral-900/80 backdrop-blur-md border border-white/10 p-8 rounded-3xl shadow-2xl transform md:-rotate-2 transition-transform hover:rotate-0 duration-500 group">
+                <div className="flex items-center gap-3 mb-6">
+                   <div className="p-2 bg-lime-400 rounded-full text-black shadow-[0_0_15px_rgba(163,230,53,0.5)]">
+                     <TrendingUp size={24} />
                    </div>
+                   <h2 className="font-display text-3xl uppercase tracking-wide">Профессиональное ДНК</h2>
+                </div>
+
+                <div className="space-y-6 text-neutral-300">
+                  <div className="flex justify-between">
+                      <div>
+                         <p className="text-4xl font-bold text-white mb-1">12+</p>
+                         <p className="text-[10px] uppercase tracking-wider text-neutral-500">Лет опыта</p>
+                      </div>
+                      <div className="text-right">
+                         <p className="text-4xl font-bold text-lime-400 mb-1">4</p>
+                         <p className="text-[10px] uppercase tracking-wider text-neutral-500">Запуска с «0»</p>
+                      </div>
+                  </div>
+                  
+                  <p className="leading-relaxed border-t border-white/10 pt-6 mt-6 text-sm">
+                    <span className="text-white font-semibold">Нахожу возможности для роста и превращаю их в прибыль.</span>
+                  </p>
+                  <p className="leading-relaxed text-sm">
+                    Запускаю проекты, вывожу бизнесы на самоокупаемость и масштабирую продажи. Увеличивал выручку на <span className="text-lime-400 font-bold">23-48%</span> в HoReCa и генерировал <span className="text-lime-400 font-bold">10M+</span> в IT-продажах.
+                  </p>
+
+                  <div className="relative pt-4">
+                     <HandDrawnArrow className="w-16 h-16 text-lime-400 absolute -right-4 -top-4 rotate-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                     <div className="flex flex-wrap gap-2">
+                       <span className="text-xs bg-white/10 px-2 py-1 rounded">Problem Solver</span>
+                       <span className="text-xs bg-white/10 px-2 py-1 rounded">Startupper</span>
+                     </div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* MEGA CLIENTS */}
-            <div ref={clientsPanelRef} className="mt-8 bg-neutral-900/90 border border-white/10 p-6 rounded-2xl backdrop-blur-sm">
-               <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-4 flex items-center gap-2">
-                 <Award size={14} className="text-lime-400" /> Проекты & Компании
-               </h3>
-               <div className="grid grid-cols-2 gap-2 opacity-80">
-                 {PROJECTS.map((project) => (
-                   <button 
-                    key={project.name} 
-                    onClick={() => setActiveProject(project)}
-                    className="text-[11px] font-semibold text-center p-2 bg-white/5 rounded hover:bg-white/10 hover:text-lime-400 transition-all cursor-pointer border border-transparent hover:border-lime-400/30 active:scale-95"
-                   >
-                     {project.name}
-                   </button>
-                 ))}
-               </div>
+              {/* MEGA CLIENTS */}
+              <div ref={clientsPanelRef} className="mt-8 bg-neutral-900/90 border border-white/10 p-6 rounded-2xl backdrop-blur-sm">
+                 <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-4 flex items-center gap-2">
+                   <Award size={14} className="text-lime-400" /> Проекты & Компании
+                 </h3>
+                 <div className="grid grid-cols-2 gap-2 opacity-80">
+                   {PROJECTS.map((project) => (
+                     <button 
+                      key={project.name} 
+                      onClick={() => setActiveProject(project)}
+                      className="text-[11px] font-semibold text-center p-2 bg-white/5 rounded hover:bg-white/10 hover:text-lime-400 transition-all cursor-pointer border border-transparent hover:border-lime-400/30 active:scale-95"
+                     >
+                       {project.name}
+                     </button>
+                   ))}
+                 </div>
+              </div>
             </div>
           </div>
 
