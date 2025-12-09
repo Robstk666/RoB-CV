@@ -15,7 +15,7 @@ import { Experience, Client, Skill } from './types';
 //    - Просто вставьте ссылку ниже.
 // ==========================================
 
-export const HERO_IMAGE_URL = "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1887&auto=format&fit=crop";
+export const HERO_IMAGE_URL = "/me.png";
 
 export const EXPERIENCES: Experience[] = [
   {
