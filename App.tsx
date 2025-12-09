@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowDownCircle, Mail, Phone, MapPin, Download, Rocket, Briefcase, Award, TrendingUp } from 'lucide-react';
-import { EXPERIENCES, CLIENTS, SKILLS } from './constants';
+import { EXPERIENCES, CLIENTS, SKILLS, HERO_IMAGE_URL } from './constants';
 import { HandDrawnArrow, CurvedArrow } from './components/HandDrawnArrow';
 
 // Register GSAP Plugin
@@ -121,18 +121,18 @@ const App: React.FC = () => {
           >
              {/* 
                ВАШЕ ФОТО:
-               Для идеального результата используйте PNG с прозрачным фоном.
+               Мы добавили улучшенную маску (gradient), чтобы фото плавно растворялось внизу.
              */}
             <div className="relative w-auto h-[70vh] md:h-[90vh] flex justify-center items-end">
-               {/* 
-                 Здесь стоит изображение-плейсхолдер.
-                 Замените src на ваше фото без фона (Transparent PNG).
-               */}
                <img 
-                 src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1887&auto=format&fit=crop" 
+                 src={HERO_IMAGE_URL} 
                  alt="Роберт Гржимайло"
                  className="h-full w-auto object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] grayscale hover:grayscale-0 transition-all duration-700"
-                 style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}
+                 // Эта маска делает плавный переход в черный цвет внизу, чтобы не было резкого обреза фото
+                 style={{ 
+                   maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)', 
+                   WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)' 
+                 }}
                />
                
                {/* Overlay Name for context if hero text fades too much */}
@@ -143,7 +143,7 @@ const App: React.FC = () => {
                </div>
 
                {/* Gradient overlay to blend bottom of torso into page if photo cuts off abruptly */}
-               <div className="absolute bottom-0 left-[-50%] right-[-50%] h-32 bg-gradient-to-t from-neutral-900 via-neutral-900/80 to-transparent z-10"></div>
+               <div className="absolute bottom-0 left-[-50%] right-[-50%] h-40 bg-gradient-to-t from-neutral-900 via-neutral-900/80 to-transparent z-10"></div>
             </div>
           </div>
 
