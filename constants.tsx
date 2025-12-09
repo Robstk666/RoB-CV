@@ -1,4 +1,4 @@
-import { Experience, Client, Skill } from './types';
+import { Experience, Project, Skill } from './types';
 
 // ==========================================
 // ИНСТРУКЦИЯ ПО ФОТОГРАФИИ
@@ -15,7 +15,7 @@ import { Experience, Client, Skill } from './types';
 //    - Просто вставьте ссылку ниже.
 // ==========================================
 
-export const HERO_IMAGE_URL = "/me.png";
+export const HERO_IMAGE_URL = "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1887&auto=format&fit=crop";
 
 export const EXPERIENCES: Experience[] = [
   {
@@ -62,11 +62,80 @@ export const EXPERIENCES: Experience[] = [
   }
 ];
 
-// Используем названия проектов вместо логотипов
-export const CLIENTS: string[] = [
-  "Росконтроль", "Молния", "Росстрой", 
-  "Парк Отель", "FINT Club", "Chillin Place", 
-  "Akimbo Fit", "Rob's Rentals"
+// Обновленный список проектов с картинками
+export const PROJECTS: Project[] = [
+  {
+    name: "Росконтроль",
+    category: "IT / B2G",
+    description: "Внедрение автоматизированных систем контроля качества. Организация взаимодействия с государственными структурами, оптимизация процессов проверки продукции.",
+    images: [
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop"
+    ]
+  },
+  {
+    name: "Молния",
+    category: "Energy / Tech",
+    description: "Разработка стратегии выхода на новые рынки для энергетической компании. Увеличение портфеля B2B клиентов на 40% за полгода.",
+    images: [
+      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop"
+    ]
+  },
+  {
+    name: "Росстрой",
+    category: "Construction",
+    description: "Масштабный девелоперский проект. Управление продажами жилой и коммерческой недвижимости. Переговоры с ключевыми инвесторами.",
+    images: [
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?q=80&w=1000&auto=format&fit=crop"
+    ]
+  },
+  {
+    name: "Парк Отель",
+    category: "HoReCa",
+    description: "Полный перезапуск загородного отеля. Внедрение новой системы бронирования, обновление номерного фонда, запуск ресторана авторской кухни.",
+    images: [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1000&auto=format&fit=crop"
+    ]
+  },
+  {
+    name: "FINT Club",
+    category: "Sport / Events",
+    description: "Организация спортивных мероприятий и турниров. Привлечение спонсоров, маркетинг, управление клубной системой лояльности.",
+    images: [
+      "https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop"
+    ]
+  },
+  {
+    name: "Chillin Place",
+    category: "Restaurant",
+    description: "Создание концепции ресторана с нуля. Дизайн интерьера, разработка меню, найм и обучение персонала, запуск маркетинговой кампании.",
+    images: [
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1000&auto=format&fit=crop"
+    ]
+  },
+  {
+    name: "Akimbo Fit",
+    category: "Fitness",
+    description: "Управление отделом продаж фитнес-клуба. Разработка скриптов продаж, внедрение CRM, проведение тренингов для менеджеров.",
+    images: [
+      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1000&auto=format&fit=crop"
+    ]
+  },
+  {
+    name: "Rob's Rentals",
+    category: "StartUp",
+    description: "Сервис проката. Разработка бизнес-модели, закупка оборудования, создание сайта и системы онлайн-бронирования, операционное управление.",
+    images: [
+      "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=1000&auto=format&fit=crop"
+    ]
+  }
 ];
 
 export const SKILLS = [

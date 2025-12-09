@@ -1,12 +1,139 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowDownCircle, Mail, Phone, MapPin, Download, Rocket, Briefcase, Award, TrendingUp } from 'lucide-react';
-import { EXPERIENCES, CLIENTS, SKILLS, HERO_IMAGE_URL } from './constants';
+import { ArrowDownCircle, Mail, Phone, MapPin, Download, Rocket, Briefcase, Award, TrendingUp, X, ChevronRight, ChevronLeft } from 'lucide-react';
+import { EXPERIENCES, PROJECTS, SKILLS, HERO_IMAGE_URL } from './constants';
 import { HandDrawnArrow, CurvedArrow } from './components/HandDrawnArrow';
+import { Project } from './types';
 
 // Register GSAP Plugin
 gsap.registerPlugin(ScrollTrigger);
+
+// --- COMPONENT: PROJECT MODAL ---
+const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => void }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Animation in
+    gsap.fromTo(modalRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+    gsap.fromTo(contentRef.current, 
+      { scale: 0.9, opacity: 0, y: 20 }, 
+      { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.2)" }
+    );
+  }, []);
+
+  const handleNextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
+  };
+
+  const handlePrevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev - 1 + project.images.length) % project.images.length);
+  };
+
+  const handleClose = () => {
+    gsap.to(contentRef.current, { scale: 0.9, opacity: 0, duration: 0.2 });
+    gsap.to(modalRef.current, { 
+      opacity: 0, 
+      duration: 0.2, 
+      onComplete: onClose 
+    });
+  };
+
+  return (
+    <div 
+      ref={modalRef}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      onClick={handleClose}
+    >
+      <div 
+        ref={contentRef}
+        className="bg-neutral-900 border border-white/10 w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row relative"
+        onClick={(e) => e.stopPropagation()} // Prevent close on content click
+      >
+        {/* Close Button */}
+        <button 
+          onClick={handleClose}
+          className="absolute top-4 right-4 z-20 p-2 bg-black/50 rounded-full text-white hover:bg-lime-400 hover:text-black transition-colors"
+        >
+          <X size={24} />
+        </button>
+
+        {/* IMAGE GALLERY SECTION (Left/Top) */}
+        <div className="w-full md:w-1/2 h-64 md:h-auto relative bg-neutral-800 group overflow-hidden">
+          <img 
+            src={project.images[currentImageIndex]} 
+            alt={project.name}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+          
+          {/* Gallery Controls */}
+          {project.images.length > 1 && (
+            <>
+              <button 
+                onClick={handlePrevImage}
+                className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/30 backdrop-blur text-white rounded-full hover:bg-lime-400 hover:text-black transition-all opacity-0 group-hover:opacity-100"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button 
+                onClick={handleNextImage}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/30 backdrop-blur text-white rounded-full hover:bg-lime-400 hover:text-black transition-all opacity-0 group-hover:opacity-100"
+              >
+                <ChevronRight size={20} />
+              </button>
+              
+              {/* Dots */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                {project.images.map((_, idx) => (
+                  <div 
+                    key={idx} 
+                    className={`w-2 h-2 rounded-full transition-colors ${idx === currentImageIndex ? 'bg-lime-400' : 'bg-white/30'}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* INFO SECTION (Right/Bottom) */}
+        <div className="w-full md:w-1/2 p-8 flex flex-col justify-center bg-neutral-900">
+           <div className="mb-2">
+              <span className="text-lime-400 text-xs font-bold uppercase tracking-widest border border-lime-400/20 px-2 py-1 rounded">
+                {project.category}
+              </span>
+           </div>
+           <h2 className="font-display text-4xl uppercase text-white mb-6">{project.name}</h2>
+           
+           <div className="space-y-4 text-neutral-300 leading-relaxed text-sm md:text-base border-l-2 border-white/10 pl-4">
+              <p>{project.description}</p>
+           </div>
+
+           <div className="mt-8 pt-6 border-t border-white/5 flex gap-4">
+              <div className="text-xs text-neutral-500 uppercase tracking-wider">
+                Gallery
+              </div>
+              <div className="flex gap-2">
+                {project.images.map((img, idx) => (
+                  <button 
+                    key={idx}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    className={`w-12 h-8 rounded overflow-hidden border transition-all ${idx === currentImageIndex ? 'border-lime-400 opacity-100' : 'border-transparent opacity-50 hover:opacity-100'}`}
+                  >
+                    <img src={img} className="w-full h-full object-cover" alt="thumbnail" />
+                  </button>
+                ))}
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const App: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,6 +144,8 @@ const App: React.FC = () => {
   const clientsPanelRef = useRef<HTMLDivElement>(null);
   const contactPanelRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -197,10 +326,14 @@ const App: React.FC = () => {
                  <Award size={14} className="text-lime-400" /> Проекты & Компании
                </h3>
                <div className="grid grid-cols-2 gap-2 opacity-80">
-                 {CLIENTS.map((client) => (
-                   <div key={client} className="text-[11px] font-semibold text-center p-2 bg-white/5 rounded hover:bg-white/10 hover:text-lime-400 transition-colors cursor-default border border-transparent hover:border-lime-400/30">
-                     {client}
-                   </div>
+                 {PROJECTS.map((project) => (
+                   <button 
+                    key={project.name} 
+                    onClick={() => setActiveProject(project)}
+                    className="text-[11px] font-semibold text-center p-2 bg-white/5 rounded hover:bg-white/10 hover:text-lime-400 transition-all cursor-pointer border border-transparent hover:border-lime-400/30 active:scale-95"
+                   >
+                     {project.name}
+                   </button>
                  ))}
                </div>
             </div>
@@ -278,6 +411,11 @@ const App: React.FC = () => {
 
           {/* DECORATIVE ELEMENTS */}
           <CurvedArrow className="absolute top-[20%] right-[25%] w-24 h-24 text-lime-400 opacity-20 rotate-45 pointer-events-none" />
+
+          {/* MODAL */}
+          {activeProject && (
+            <ProjectModal project={activeProject} onClose={() => setActiveProject(null)} />
+          )}
 
         </div>
       </div>

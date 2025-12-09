@@ -5,9 +5,16 @@ export interface Experience {
   type: string;
 }
 
+export interface Project {
+  name: string;
+  category: string;
+  description: string;
+  images: string[];
+}
+
 export interface Client {
   name: string;
-  logo: string; // simpler to use text/icon for demo than finding 20 separate logo svgs
+  logo: string;
 }
 
 export interface Skill {
