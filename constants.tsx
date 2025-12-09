@@ -17,7 +17,7 @@ import { Experience, Project, Skill } from './types';
 
 export const HHERO_IMAGE_URL = "/me.png";
 
-export const EXPERIENCES: Experience[] = [
+export const EXPERIENCES: Experience[] = export const HERO_IMAGE_URL = "/me.png"
   {
     role: "CO-FOUNDER / PROJECT LEAD",
     company: "Сайты за 72 часа (Новый проект)",
