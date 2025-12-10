@@ -257,7 +257,7 @@ const App: React.FC = () => {
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
             <h1 
               ref={heroNameRef}
-              className="font-display text-[15vw] md:text-[16vw] leading-none text-neutral-800 uppercase tracking-tighter text-center whitespace-nowrap opacity-100 mix-blend-color-dodge select-none"
+              className="font-display text-[12vw] md:text-[13vw] leading-none text-neutral-800 uppercase tracking-tighter text-center whitespace-nowrap opacity-100 mix-blend-color-dodge select-none"
             >
               ГРЖИМАЙЛО <br className="hidden md:block" /> РОБЕРТ
             </h1>
