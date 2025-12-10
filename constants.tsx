@@ -15,7 +15,7 @@ import { Experience, Project, Skill } from './types';
 //    - Просто вставьте ссылку ниже.
 // ==========================================
 
-export const HHERO_IMAGE_URL = "/me.png";
+export const HERO_IMAGE_URL = "/me.png";
 
 export const EXPERIENCES: Experience[
   {
