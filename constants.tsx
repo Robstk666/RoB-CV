@@ -30,7 +30,7 @@ export const EXPERIENCES: Experience[] = [
   },
   {
     role: "BUSINESS DEVELOPMENT MGR",
-    company: "ФБУ «Росстройконтроль»", // Переименовано
+    company: "ФБУ «Росстройконтроль»",
     period: "Ноя 2023 - Наст. время",
     type: "IT-Решения / B2G / B2B"
   },
@@ -66,9 +66,17 @@ export const EXPERIENCES: Experience[] = [
   }
 ];
 
-// Обновленный список проектов с картинками
-// "Росконтроль" и "Росстрой" удалены/объединены в "Росстройконтроль"
+// Обновленный список проектов
 export const PROJECTS: Project[] = [
+  {
+    name: "ГАУК «ЦВИ»",
+    category: "Culture / Gov",
+    description: "Операционное управление Центром Визуального Искусства. Запуск новых направлений, организация масштабных мероприятий, взаимодействие с Департаментом культуры.",
+    images: [
+      "https://images.unsplash.com/photo-1514525253440-b39345208668?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1507676184212-d0370baf12ce?q=80&w=1000&auto=format&fit=crop"
+    ]
+  },
   {
     name: "Росстройконтроль",
     category: "IT / B2G",
