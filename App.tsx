@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowDownCircle, Mail, Phone, MapPin, Download, Rocket, Briefcase, Award, TrendingUp, X, ChevronRight, ChevronLeft, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowDownCircle, Mail, Phone, MapPin, Download, Rocket, Briefcase, Award, TrendingUp, X, ChevronRight, ChevronLeft } from 'lucide-react';
 import { EXPERIENCES, PROJECTS, SKILLS, HERO_IMAGE_URL } from './constants';
 import { HandDrawnArrow, CurvedArrow } from './components/HandDrawnArrow';
 import { Project, Experience } from './types';
@@ -146,7 +146,6 @@ const App: React.FC = () => {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
   const [activeProject, setActiveProject] = useState<Project | null>(null);
-  const [isMobileDnaOpen, setIsMobileDnaOpen] = useState(false);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -234,8 +233,7 @@ const App: React.FC = () => {
       experience.company.toLowerCase().includes(p.name.toLowerCase()) ||
       // Manual mapping for cases where names differ significantly
       (experience.company.includes("FINT") && p.name.includes("FINT")) ||
-      (experience.company.includes("Акимбо") && p.name.includes("Акимбо")) ||
-       (experience.company.includes("ЦВИ") && p.name.includes("ЦВИ"))
+      (experience.company.includes("Акимбо") && p.name.includes("Акимбо"))
     );
 
     if (found) {
@@ -259,9 +257,9 @@ const App: React.FC = () => {
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
             <h1 
               ref={heroNameRef}
-              className="font-display text-[12vw] md:text-[13vw] leading-none text-neutral-800 uppercase tracking-tighter text-center whitespace-nowrap opacity-100 mix-blend-color-dodge select-none"
+              className="font-display text-[15vw] md:text-[16vw] leading-none text-neutral-800 uppercase tracking-tighter text-center whitespace-nowrap opacity-100 mix-blend-color-dodge select-none"
             >
-              ГРЖИМАЙЛО <br /> РОБЕРТ
+              ГРЖИМАЙЛО <br className="hidden md:block" /> РОБЕРТ
             </h1>
           </div>
 
@@ -300,50 +298,20 @@ const App: React.FC = () => {
           {/* FRONT LAYER: The Content Gates */}
           
           {/* LEFT PANEL: Creative DNA & Projects */}
-          {/* 
-              MOBILE BEHAVIOR: Fixed Header (Collapsible)
-              DESKTOP BEHAVIOR: Absolute Side Panel
-          */}
           <div 
             ref={leftPanelRef}
-            className={`
-              transition-all duration-300 ease-in-out
-              /* Mobile Styles */
-              fixed top-0 left-0 w-full z-[60] bg-neutral-900 border-b border-white/10 shadow-2xl
-              flex flex-col
-              /* Desktop Styles override */
-              md:absolute md:top-0 md:left-0 md:w-1/3 md:h-full md:bg-transparent md:border-none md:shadow-none md:z-20 md:p-12 md:justify-center
-              ${isMobileDnaOpen ? 'h-auto max-h-[85vh]' : 'h-[70px] md:h-full'}
-            `}
+            className="absolute left-0 top-0 h-full w-full md:w-1/3 p-6 md:p-12 flex flex-col justify-start md:justify-center z-20 pointer-events-auto overflow-y-auto custom-scrollbar"
           >
-             {/* CONTENT CONTAINER - Handles scrolling for mobile when open, centered for desktop */}
-            <div className={`
-              w-full h-full md:my-auto md:min-h-min overflow-hidden md:overflow-visible
-              ${isMobileDnaOpen ? 'overflow-y-auto' : ''}
-            `}>
-              
-              {/* CARD CONTAINER */}
-              <div className="bg-neutral-900/80 md:backdrop-blur-md md:border md:border-white/10 p-4 md:p-8 md:rounded-3xl md:shadow-2xl md:transform md:-rotate-2 md:transition-transform md:hover:rotate-0 md:duration-500 group">
-                
-                {/* HEADER ROW (Always visible on mobile) */}
-                <div 
-                  className="flex items-center justify-between md:justify-start gap-3 md:mb-6 cursor-pointer md:cursor-default"
-                  onClick={() => setIsMobileDnaOpen(!isMobileDnaOpen)}
-                >
-                   <div className="flex items-center gap-3">
-                      <div className="p-2 bg-lime-400 rounded-full text-black shadow-[0_0_15px_rgba(163,230,53,0.5)]">
-                        <TrendingUp size={24} />
-                      </div>
-                      <h2 className="font-display text-xl md:text-3xl uppercase tracking-wide text-white">Проф ДНК</h2>
+            <div className="my-auto min-h-min">
+              <div className="bg-neutral-900/80 backdrop-blur-md border border-white/10 p-8 rounded-3xl shadow-2xl transform md:-rotate-2 transition-transform hover:rotate-0 duration-500 group">
+                <div className="flex items-center gap-3 mb-6">
+                   <div className="p-2 bg-lime-400 rounded-full text-black shadow-[0_0_15px_rgba(163,230,53,0.5)]">
+                     <TrendingUp size={24} />
                    </div>
-                   {/* Toggle Icon (Mobile Only) */}
-                   <div className="md:hidden text-lime-400">
-                      {isMobileDnaOpen ? <ChevronUp /> : <ChevronDown />}
-                   </div>
+                   <h2 className="font-display text-3xl uppercase tracking-wide">Проф ДНК</h2>
                 </div>
 
-                {/* EXPANDABLE CONTENT (Hidden on mobile unless open) */}
-                <div className={`space-y-6 text-neutral-300 mt-6 ${isMobileDnaOpen ? 'block' : 'hidden md:block'}`}>
+                <div className="space-y-6 text-neutral-300">
                   <div className="flex justify-between">
                       <div>
                          <p className="text-4xl font-bold text-white mb-1">12+</p>
@@ -362,7 +330,7 @@ const App: React.FC = () => {
                     Запускаю проекты, вывожу бизнесы на самоокупаемость и масштабирую продажи. Увеличивал выручку на <span className="text-lime-400 font-bold">23-48%</span> в HoReCa и генерировал <span className="text-lime-400 font-bold">10M+</span> в IT-продажах.
                   </p>
 
-                  <div className="relative pt-4 hidden md:block">
+                  <div className="relative pt-4">
                      <HandDrawnArrow className="w-16 h-16 text-lime-400 absolute -right-4 -top-4 rotate-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                      <div className="flex flex-wrap gap-2">
                        <span className="text-xs bg-white/10 px-2 py-1 rounded">Problem Solver</span>
@@ -372,11 +340,8 @@ const App: React.FC = () => {
                 </div>
               </div>
 
-              {/* MEGA CLIENTS (Inside expandable area on mobile) */}
-              <div 
-                ref={clientsPanelRef} 
-                className={`mt-4 md:mt-8 bg-neutral-900/90 border border-white/10 p-4 md:p-6 rounded-2xl backdrop-blur-sm ${isMobileDnaOpen ? 'block' : 'hidden md:block'}`}
-              >
+              {/* MEGA CLIENTS */}
+              <div ref={clientsPanelRef} className="mt-8 bg-neutral-900/90 border border-white/10 p-6 rounded-2xl backdrop-blur-sm">
                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-4 flex items-center gap-2">
                    <Award size={14} className="text-lime-400" /> Проекты & Компании
                  </h3>
@@ -384,10 +349,7 @@ const App: React.FC = () => {
                    {PROJECTS.map((project) => (
                      <button 
                       key={project.name} 
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent closing header
-                        setActiveProject(project);
-                      }}
+                      onClick={() => setActiveProject(project)}
                       className="text-[11px] font-semibold text-center p-2 bg-white/5 rounded hover:bg-white/10 hover:text-lime-400 transition-all cursor-pointer border border-transparent hover:border-lime-400/30 active:scale-95"
                      >
                        {project.name}
@@ -399,16 +361,12 @@ const App: React.FC = () => {
           </div>
 
           {/* RIGHT PANEL: Career Journey */}
-          {/* 
-              MOBILE: Full screen below header, scrollable.
-              DESKTOP: Absolute Right Panel.
-          */}
           <div 
              ref={rightPanelRef}
-             className="absolute md:right-0 top-0 left-0 w-full h-full md:w-1/3 p-4 md:p-12 flex flex-col justify-start md:justify-center z-20 pointer-events-auto pt-[80px] md:pt-12 overflow-y-auto custom-scrollbar md:overflow-visible"
+             className="absolute right-0 top-0 h-full w-full md:w-1/3 p-6 md:p-12 flex flex-col justify-center z-20 pointer-events-auto"
           >
-             <div className="bg-neutral-900/80 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-3xl shadow-2xl transform md:rotate-2 transition-transform hover:rotate-0 duration-500 h-fit md:max-h-[85vh] md:overflow-y-auto custom-scrollbar mb-24 md:mb-0">
-                <div className="flex items-center gap-3 mb-8 sticky top-0 bg-neutral-900/95 p-2 -m-2 z-10 md:static md:bg-transparent md:p-0 md:m-0">
+             <div className="bg-neutral-900/80 backdrop-blur-md border border-white/10 p-8 rounded-3xl shadow-2xl transform md:rotate-2 transition-transform hover:rotate-0 duration-500 h-fit max-h-[85vh] overflow-y-auto custom-scrollbar">
+                <div className="flex items-center gap-3 mb-8">
                    <div className="p-2 bg-white text-black rounded-full shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                      <Briefcase size={24} />
                    </div>
@@ -422,8 +380,7 @@ const App: React.FC = () => {
                         p.name.toLowerCase().includes(job.company.toLowerCase()) || 
                         job.company.toLowerCase().includes(p.name.toLowerCase()) ||
                         (job.company.includes("FINT") && p.name.includes("FINT")) ||
-                        (job.company.includes("Акимбо") && p.name.includes("Акимбо")) ||
-                         (job.company.includes("ЦВИ") && p.name.includes("ЦВИ"))
+                        (job.company.includes("Акимбо") && p.name.includes("Акимбо"))
                      );
 
                      return (
