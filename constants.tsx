@@ -66,15 +66,15 @@ export const EXPERIENCES: Experience[] = [
   }
 ];
 
-// Обновленный список проектов
+// Обновленный список проектов (Все из карьеры)
 export const PROJECTS: Project[] = [
   {
-    name: "ГАУК «ЦВИ»",
-    category: "Culture / Gov",
-    description: "Операционное управление Центром Визуального Искусства. Запуск новых направлений, организация масштабных мероприятий, взаимодействие с Департаментом культуры.",
+    name: "Сайты за 72 часа",
+    category: "Web / AI",
+    description: "Запуск агентства по быстрой разработке сайтов с использованием AI-инструментов. Оптимизация процессов производства, выход на рынок веб-продакшна.",
     images: [
-      "https://images.unsplash.com/photo-1514525253440-b39345208668?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1507676184212-d0370baf12ce?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1555421689-491a97ff2040?q=80&w=1000&auto=format&fit=crop"
     ]
   },
   {
@@ -87,21 +87,39 @@ export const PROJECTS: Project[] = [
     ]
   },
   {
-    name: "Молния",
-    category: "Energy / Tech",
-    description: "Разработка стратегии выхода на новые рынки для энергетической компании. Увеличение портфеля B2B клиентов на 40% за полгода.",
+    name: "ГАУК «ЦВИ»",
+    category: "Culture / Gov",
+    description: "Операционное управление Центром Визуального Искусства. Запуск новых направлений, организация масштабных мероприятий, взаимодействие с Департаментом культуры.",
     images: [
-      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1514525253440-b39345208668?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1507676184212-d0370baf12ce?q=80&w=1000&auto=format&fit=crop"
     ]
   },
   {
-    name: "Парк Отель FINT",
+    name: "Парк Отель",
     category: "HoReCa",
     description: "Полный перезапуск загородного отеля. Внедрение новой системы бронирования, обновление номерного фонда, запуск ресторана авторской кухни.",
     images: [
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1000&auto=format&fit=crop"
+    ]
+  },
+  {
+    name: "Бойцовский клуб FINT",
+    category: "Sport / Events",
+    description: "Развитие спортивного направления на базе отеля. Организация турниров, сборов, запуск бойцовского клуба, маркетинг спортивных мероприятий.",
+    images: [
+      "https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=1000&auto=format&fit=crop"
+    ]
+  },
+  {
+    name: "Rob's Rentals",
+    category: "StartUp",
+    description: "Сервис проката. Разработка бизнес-модели, закупка оборудования, создание сайта и системы онлайн-бронирования, операционное управление.",
+    images: [
+      "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=1000&auto=format&fit=crop"
     ]
   },
   {
@@ -120,15 +138,6 @@ export const PROJECTS: Project[] = [
     images: [
       "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1000&auto=format&fit=crop"
-    ]
-  },
-  {
-    name: "Rob's Rentals",
-    category: "StartUp",
-    description: "Сервис проката. Разработка бизнес-модели, закупка оборудования, создание сайта и системы онлайн-бронирования, операционное управление.",
-    images: [
-      "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=1000&auto=format&fit=crop"
     ]
   }
 ];
