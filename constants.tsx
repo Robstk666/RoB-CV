@@ -10,11 +10,10 @@ import { Experience, Project, Skill } from './types';
 // 2. Если файл называется иначе, поменяйте название в импорте ниже: import localPhoto from './ВАШЕ_НАЗВАНИЕ.png';
 // ==========================================
 
-// @ts-ignore: Игнорируем проверку типов для картинки, чтобы не создавать лишних файлов настроек
+// @ts-ignore: Игнорируем проверку типов для картинки
 import localPhoto from './me.png';
 
 // Используем импортированное фото.
-// Исправлена опечатка (было HHERO, стало HERO)
 export const HERO_IMAGE_URL = localPhoto;
 
 // Если вы захотите использовать ссылку из интернета, 
@@ -25,13 +24,13 @@ export const HERO_IMAGE_URL = localPhoto;
 export const EXPERIENCES: Experience[] = [
   {
     role: "CO-FOUNDER / PROJECT LEAD",
-    company: "Сайты за 72 часа (Новый проект)",
+    company: "Сайты за 72 часа",
     period: "2024 - Наст. время",
     type: "Web Production / AI"
   },
   {
     role: "BUSINESS DEVELOPMENT MGR",
-    company: "ФБУ «Росконтроль» + «Молния»",
+    company: "ФБУ «Росстройконтроль»", // Переименовано
     period: "Ноя 2023 - Наст. время",
     type: "IT-Решения / B2G / B2B"
   },
@@ -49,7 +48,7 @@ export const EXPERIENCES: Experience[] = [
   },
   {
     role: "ОСНОВАТЕЛЬ / CEO",
-    company: "Rob's Rentals (Стартап)",
+    company: "Rob's Rentals",
     period: "Апр 2018 - Сен 2021",
     type: "Прокат / Инвестиции"
   },
@@ -68,13 +67,14 @@ export const EXPERIENCES: Experience[] = [
 ];
 
 // Обновленный список проектов с картинками
+// "Росконтроль" и "Росстрой" удалены/объединены в "Росстройконтроль"
 export const PROJECTS: Project[] = [
   {
-    name: "Росконтроль",
+    name: "Росстройконтроль",
     category: "IT / B2G",
     description: "Внедрение автоматизированных систем контроля качества. Организация взаимодействия с государственными структурами, оптимизация процессов проверки продукции.",
     images: [
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop"
     ]
   },
@@ -88,30 +88,12 @@ export const PROJECTS: Project[] = [
     ]
   },
   {
-    name: "Росстрой",
-    category: "Construction",
-    description: "Масштабный девелоперский проект. Управление продажами жилой и коммерческой недвижимости. Переговоры с ключевыми инвесторами.",
-    images: [
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?q=80&w=1000&auto=format&fit=crop"
-    ]
-  },
-  {
-    name: "Парк Отель",
+    name: "Парк Отель FINT",
     category: "HoReCa",
     description: "Полный перезапуск загородного отеля. Внедрение новой системы бронирования, обновление номерного фонда, запуск ресторана авторской кухни.",
     images: [
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1000&auto=format&fit=crop"
-    ]
-  },
-  {
-    name: "FINT Club",
-    category: "Sport / Events",
-    description: "Организация спортивных мероприятий и турниров. Привлечение спонсоров, маркетинг, управление клубной системой лояльности.",
-    images: [
-      "https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop"
     ]
   },
   {
@@ -124,7 +106,7 @@ export const PROJECTS: Project[] = [
     ]
   },
   {
-    name: "Akimbo Fit",
+    name: "Акимбо",
     category: "Fitness",
     description: "Управление отделом продаж фитнес-клуба. Разработка скриптов продаж, внедрение CRM, проведение тренингов для менеджеров.",
     images: [

@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowDownCircle, Mail, Phone, MapPin, Download, Rocket, Briefcase, Award, TrendingUp, X, ChevronRight, ChevronLeft } from 'lucide-react';
 import { EXPERIENCES, PROJECTS, SKILLS, HERO_IMAGE_URL } from './constants';
 import { HandDrawnArrow, CurvedArrow } from './components/HandDrawnArrow';
-import { Project } from './types';
+import { Project, Experience } from './types';
 
 // Register GSAP Plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -160,14 +160,14 @@ const App: React.FC = () => {
       });
 
       // --- SEQUENCE 0: HERO FADE OUT ---
-      // Name fades back and scales down slightly
+      // Name stays for a bit (0-10% scroll), then fades out
       tl.to(heroNameRef.current, {
-        opacity: 0.1,
+        opacity: 0,
         scale: 0.8,
         y: -100,
         duration: 2,
         ease: "power2.inOut"
-      }, "start");
+      }, "start+=0.5"); // Start slightly later
 
       // Scroll Indicator fades out immediately
       tl.to(scrollIndicatorRef.current, {
@@ -175,14 +175,18 @@ const App: React.FC = () => {
         duration: 0.5
       }, "start");
 
-      // Character "Wakes Up" - scales up slightly and moves down a bit to anchor
-      tl.to(characterRef.current, {
-        scale: 1.1,
-        y: 50,
-        filter: "brightness(1.1)",
-        duration: 4,
-        ease: "power1.inOut"
-      }, "start");
+      // Character "Wakes Up" - Comes from bottom
+      // Start hidden at bottom (set in CSS/Inline), then move up
+      tl.fromTo(characterRef.current, 
+        { opacity: 0, y: 150, filter: "brightness(0.5)" },
+        {
+          opacity: 1,
+          y: 50, // Final position
+          filter: "brightness(1.1)",
+          duration: 3,
+          ease: "power2.out"
+        }, "start"
+      );
 
 
       // --- SEQUENCE 1: THE GATE OPENS (Experience & DNA) ---
@@ -221,6 +225,22 @@ const App: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
+  // Helper to find project from experience company name
+  const handleExperienceClick = (experience: Experience) => {
+    // Try to find a project that includes the company name or vice versa
+    const found = PROJECTS.find(p => 
+      p.name.toLowerCase().includes(experience.company.toLowerCase()) || 
+      experience.company.toLowerCase().includes(p.name.toLowerCase()) ||
+      // Manual mapping for cases where names differ significantly
+      (experience.company.includes("FINT") && p.name.includes("FINT")) ||
+      (experience.company.includes("Акимбо") && p.name.includes("Акимбо"))
+    );
+
+    if (found) {
+      setActiveProject(found);
+    }
+  };
+
   return (
     <div className="bg-neutral-900 text-white selection:bg-lime-400 selection:text-black">
       {/* 
@@ -244,20 +264,19 @@ const App: React.FC = () => {
           </div>
 
           {/* MIDDLE LAYER: The Character (Central Figure) */}
+          {/* Initial state: Hidden (opacity 0), moved down. Controlled by GSAP */}
           <div 
             ref={characterRef}
-            className="absolute z-10 w-full h-full flex items-end justify-center pointer-events-none pb-0"
+            className="absolute z-10 w-full h-full flex items-end justify-center pointer-events-none pb-0 opacity-0 translate-y-20"
           >
              {/* 
                ВАШЕ ФОТО:
-               Мы добавили улучшенную маску (gradient), чтобы фото плавно растворялось внизу.
              */}
             <div className="relative w-auto h-[70vh] md:h-[90vh] flex justify-center items-end">
                <img 
                  src={HERO_IMAGE_URL} 
                  alt="Роберт Гржимайло"
                  className="h-full w-auto object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] grayscale hover:grayscale-0 transition-all duration-700"
-                 // Эта маска делает плавный переход в черный цвет внизу, чтобы не было резкого обреза фото
                  style={{ 
                    maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)', 
                    WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)' 
@@ -265,7 +284,7 @@ const App: React.FC = () => {
                />
                
                {/* Overlay Name for context if hero text fades too much */}
-               <div className="absolute bottom-10 w-full text-center px-4 z-20">
+               <div className="absolute bottom-16 w-full text-center px-4 z-20">
                   <p className="text-lime-400 font-bold tracking-[0.3em] text-xs md:text-sm drop-shadow-lg uppercase bg-neutral-900/50 inline-block px-4 py-2 rounded-full backdrop-blur-sm border border-white/10">
                     Business Development Manager
                   </p>
@@ -289,7 +308,7 @@ const App: React.FC = () => {
                    <div className="p-2 bg-lime-400 rounded-full text-black shadow-[0_0_15px_rgba(163,230,53,0.5)]">
                      <TrendingUp size={24} />
                    </div>
-                   <h2 className="font-display text-3xl uppercase tracking-wide">Профессиональное ДНК</h2>
+                   <h2 className="font-display text-3xl uppercase tracking-wide">Проф ДНК</h2>
                 </div>
 
                 <div className="space-y-6 text-neutral-300">
@@ -341,7 +360,7 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          {/* RIGHT PANEL: Creative Journey */}
+          {/* RIGHT PANEL: Career Journey */}
           <div 
              ref={rightPanelRef}
              className="absolute right-0 top-0 h-full w-full md:w-1/3 p-6 md:p-12 flex flex-col justify-center z-20 pointer-events-auto"
@@ -351,25 +370,42 @@ const App: React.FC = () => {
                    <div className="p-2 bg-white text-black rounded-full shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                      <Briefcase size={24} />
                    </div>
-                   <h2 className="font-display text-3xl uppercase tracking-wide">Карьерный Путь</h2>
+                   <h2 className="font-display text-3xl uppercase tracking-wide">Карьера</h2>
                 </div>
                 
                 <div className="relative border-l border-white/10 ml-3 space-y-8 pl-8">
-                   {EXPERIENCES.map((job, idx) => (
-                     <div key={idx} className="relative group">
-                        {/* Timeline Dot */}
-                        <div className="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-neutral-900 border-2 border-lime-400 group-hover:bg-lime-400 group-hover:shadow-[0_0_10px_rgba(163,230,53,0.8)] transition-all"></div>
-                        
-                        <h3 className="font-bold text-base text-white group-hover:text-lime-400 transition-colors uppercase">{job.role}</h3>
-                        <p className="text-neutral-300 text-sm font-semibold">{job.company}</p>
-                        <div className="flex items-center gap-2 text-xs text-neutral-500 mt-1">
-                           <span>{job.period}</span>
-                        </div>
-                        <div className="inline-block mt-2 px-2 py-0.5 rounded bg-white/5 text-[10px] text-neutral-400 border border-white/5">
-                           {job.type}
-                        </div>
-                     </div>
-                   ))}
+                   {EXPERIENCES.map((job, idx) => {
+                     // Check if this experience has a linked project to make it clickable
+                     const isClickable = PROJECTS.some(p => 
+                        p.name.toLowerCase().includes(job.company.toLowerCase()) || 
+                        job.company.toLowerCase().includes(p.name.toLowerCase()) ||
+                        (job.company.includes("FINT") && p.name.includes("FINT")) ||
+                        (job.company.includes("Акимбо") && p.name.includes("Акимбо"))
+                     );
+
+                     return (
+                       <div 
+                        key={idx} 
+                        className={`relative group ${isClickable ? 'cursor-pointer' : ''}`}
+                        onClick={() => isClickable && handleExperienceClick(job)}
+                       >
+                          {/* Timeline Dot */}
+                          <div className={`absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-neutral-900 border-2 transition-all ${isClickable ? 'border-lime-400 group-hover:bg-lime-400 group-hover:shadow-[0_0_10px_rgba(163,230,53,0.8)]' : 'border-neutral-600'}`}></div>
+                          
+                          <h3 className="font-bold text-base text-white group-hover:text-lime-400 transition-colors uppercase flex items-center gap-2">
+                            {job.role}
+                            {isClickable && <ArrowDownCircle size={12} className="-rotate-90 opacity-0 group-hover:opacity-100 transition-opacity text-lime-400" />}
+                          </h3>
+                          <p className="text-neutral-300 text-sm font-semibold">{job.company}</p>
+                          <div className="flex items-center gap-2 text-xs text-neutral-500 mt-1">
+                             <span>{job.period}</span>
+                          </div>
+                          <div className="inline-block mt-2 px-2 py-0.5 rounded bg-white/5 text-[10px] text-neutral-400 border border-white/5">
+                             {job.type}
+                          </div>
+                       </div>
+                     );
+                   })}
                 </div>
 
                 <div className="mt-10 pt-6 border-t border-white/10">
@@ -386,15 +422,15 @@ const App: React.FC = () => {
           </div>
 
           {/* SCROLL INDICATOR (Fades out) */}
-          <div ref={scrollIndicatorRef} className="absolute bottom-10 z-30 flex flex-col items-center gap-2 animate-bounce mix-blend-difference">
-             <p className="text-xs uppercase tracking-widest text-neutral-500">История Успеха</p>
+          <div ref={scrollIndicatorRef} className="absolute bottom-5 z-30 flex flex-col-reverse items-center gap-2 animate-bounce mix-blend-difference">
+             <p className="text-xs uppercase tracking-widest text-neutral-500 font-bold">Смахни</p>
              <ArrowDownCircle className="text-lime-400 w-8 h-8" />
           </div>
 
           {/* FOOTER / CONTACT (Always visible late scroll) */}
           <div ref={contactPanelRef} className="absolute bottom-6 md:bottom-12 right-6 md:right-12 z-50 flex flex-col gap-4 items-end">
              <button className="group relative flex items-center gap-3 bg-lime-400 text-neutral-900 px-6 py-3 rounded-full font-bold hover:bg-white transition-all shadow-[0_0_20px_rgba(163,230,53,0.3)]">
-                <span className="uppercase tracking-wide">Скачать PDF</span>
+                <span className="uppercase tracking-wide">Скачать CV</span>
                 <Download size={20} className="group-hover:translate-y-1 transition-transform" />
              </button>
              
