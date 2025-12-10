@@ -320,7 +320,9 @@ const App: React.FC = () => {
           >
              {/* CONTENT CONTAINER - Handles scrolling for mobile when open, centered for desktop */}
             <div className={`
-              w-full h-full md:my-auto md:min-h-min overflow-hidden md:overflow-visible
+              w-full h-full md:my-auto md:min-h-min overflow-hidden 
+              /* Desktop Overflow Fix: Enable scroll if content is tall (8 projects) */
+              md:max-h-screen md:overflow-y-auto custom-scrollbar
               ${isMobileDnaOpen ? 'overflow-y-auto' : ''}
             `}>
               
@@ -405,11 +407,11 @@ const App: React.FC = () => {
           {/* 
               MOBILE: Full screen below header, scrollable.
               DESKTOP: Absolute Right Panel.
-              FIX: added md:left-auto to prevent overlap with Left Panel
+              FIX: use !left-auto to ensure right positioning on desktop
           */}
           <div 
              ref={rightPanelRef}
-             className="absolute md:right-0 top-0 left-0 md:left-auto w-full h-full md:w-1/3 p-4 md:p-12 flex flex-col justify-start md:justify-center z-20 pointer-events-auto pt-[80px] md:pt-12 overflow-y-auto custom-scrollbar md:overflow-visible"
+             className="absolute top-0 left-0 w-full h-full md:w-1/3 md:!left-auto md:right-0 p-4 md:p-12 flex flex-col justify-start md:justify-center z-20 pointer-events-auto pt-[80px] md:pt-12 overflow-y-auto custom-scrollbar md:overflow-visible"
           >
              <div className="bg-neutral-900/80 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-3xl shadow-2xl transform md:rotate-2 transition-transform hover:rotate-0 duration-500 h-fit md:max-h-[85vh] md:overflow-y-auto custom-scrollbar mb-24 md:mb-0">
                 <div className="flex items-center gap-3 mb-8 sticky top-0 bg-neutral-900/95 p-2 -m-2 z-10 md:static md:bg-transparent md:p-0 md:m-0">
@@ -425,7 +427,7 @@ const App: React.FC = () => {
                      const isClickable = PROJECTS.some(p => 
                         p.name.toLowerCase().includes(job.company.toLowerCase()) || 
                         job.company.toLowerCase().includes(p.name.toLowerCase()) ||
-                        (job.company.includes("FINT") && p.name.includes("FINT")) ||
+                        (job.company.includes("FINT") && (p.name.includes("FINT") || p.name.includes("Парк Отель"))) ||
                         (job.company.includes("Акимбо") && p.name.includes("Акимбо")) ||
                          (job.company.includes("ЦВИ") && p.name.includes("ЦВИ")) ||
                          (job.company.includes("Центр Визуального Искусства") && p.name.includes("ЦВИ")) ||
