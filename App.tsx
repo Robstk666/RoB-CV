@@ -313,7 +313,7 @@ const App: React.FC = () => {
               fixed top-0 left-0 w-full z-[60] bg-neutral-900 border-b border-white/10 shadow-2xl
               flex flex-col
               /* Desktop Styles override */
-              md:absolute md:top-0 md:left-0 md:w-1/3 md:h-full md:bg-transparent md:border-none md:shadow-none md:z-20 md:p-12 md:justify-center
+              md:absolute md:top-0 md:left-auto md:w-1/3 md:h-full md:bg-transparent md:border-none md:shadow-none md:z-20 md:p-12 md:justify-center
               ${isMobileDnaOpen ? 'h-auto max-h-[85vh]' : 'h-[70px] md:h-full'}
             `}
           >
