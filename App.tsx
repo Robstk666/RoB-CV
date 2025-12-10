@@ -315,7 +315,7 @@ const App: React.FC = () => {
               flex flex-col
               /* Desktop Styles override */
               md:absolute md:top-0 md:left-0 md:w-1/3 md:h-full md:bg-transparent md:border-none md:shadow-none md:z-20 md:p-12 md:justify-center
-              ${isMobileDnaOpen ? 'h-auto max-h-[85vh]' : 'h-[70px] md:h-full'}
+              ${isMobileDnaOpen ? 'h-auto max-h-[90vh]' : 'h-[70px] md:h-full'}
             `}
           >
              {/* CONTENT CONTAINER - Handles scrolling for mobile when open, centered for desktop */}
@@ -323,7 +323,7 @@ const App: React.FC = () => {
               w-full h-full md:my-auto md:min-h-min overflow-hidden 
               /* Desktop Overflow Fix: Enable scroll if content is tall (8 projects) */
               md:max-h-screen md:overflow-y-auto custom-scrollbar
-              ${isMobileDnaOpen ? 'overflow-y-auto' : ''}
+              ${isMobileDnaOpen ? 'overflow-y-auto pb-20' : ''}
             `}>
               
               {/* CARD CONTAINER */}
@@ -411,7 +411,7 @@ const App: React.FC = () => {
           */}
           <div 
              ref={rightPanelRef}
-             className="absolute top-0 left-0 w-full h-full md:w-1/3 md:!left-auto md:right-0 p-4 md:p-12 flex flex-col justify-start md:justify-center z-20 pointer-events-auto pt-[80px] md:pt-12 overflow-y-auto custom-scrollbar md:overflow-visible"
+             className="absolute top-0 w-full h-full md:w-1/3 left-0 md:left-auto md:right-0 p-4 md:p-12 flex flex-col justify-start md:justify-center z-20 pointer-events-auto pt-[80px] md:pt-12 overflow-y-auto custom-scrollbar md:overflow-visible"
           >
              <div className="bg-neutral-900/80 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-3xl shadow-2xl transform md:rotate-2 transition-transform hover:rotate-0 duration-500 h-fit md:max-h-[85vh] md:overflow-y-auto custom-scrollbar mb-24 md:mb-0">
                 <div className="flex items-center gap-3 mb-8 sticky top-0 bg-neutral-900/95 p-2 -m-2 z-10 md:static md:bg-transparent md:p-0 md:m-0">
