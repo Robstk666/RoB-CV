@@ -290,7 +290,7 @@ const App: React.FC = () => {
                {/* Overlay Name for context if hero text fades too much */}
                <div className="absolute bottom-16 w-full text-center px-4 z-20">
                   <p className="text-lime-400 font-bold tracking-[0.3em] text-xs md:text-sm drop-shadow-lg uppercase bg-neutral-900/50 inline-block px-4 py-2 rounded-full backdrop-blur-sm border border-white/10">
-                    Business Development Manager
+                    Business Development Lead
                   </p>
                </div>
 
