@@ -385,7 +385,7 @@ const App: React.FC = () => {
                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-4 flex items-center gap-2">
                    <Award size={14} className="text-lime-400" /> Проекты & Компании
                  </h3>
-                 <div className="grid grid-cols-2 gap-2 opacity-80">
+                 <div className="grid grid-cols-2 gap-1 opacity-80 md:max-h-[30vh] md:overflow-y-auto custom-scrollbar pr-1">
                    {PROJECTS.map((project) => (
                      <button 
                       key={project.name} 
@@ -411,7 +411,7 @@ const App: React.FC = () => {
           */}
           <div 
              ref={rightPanelRef}
-             className="absolute top-0 left-0 w-full h-full md:w-1/3 md:!left-auto md:right-0 p-4 md:p-12 flex flex-col justify-start md:justify-center z-20 pointer-events-auto pt-[80px] md:pt-12 overflow-y-auto custom-scrollbar md:overflow-visible"
+             className="absolute top-0 left-0 w-full h-full md:w-1/3 md:left-auto md:right-0 p-4 md:p-12 flex flex-col justify-start md:justify-center z-20 pointer-events-auto pt-[80px] md:pt-12 overflow-y-auto custom-scrollbar md:overflow-visible"
           >
              <div className="bg-neutral-900/80 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-3xl shadow-2xl transform md:rotate-2 transition-transform hover:rotate-0 duration-500 h-fit md:max-h-[85vh] md:overflow-y-auto custom-scrollbar mb-24 md:mb-0">
                 <div className="flex items-center gap-3 mb-8 sticky top-0 bg-neutral-900/95 p-2 -m-2 z-10 md:static md:bg-transparent md:p-0 md:m-0">
@@ -481,7 +481,7 @@ const App: React.FC = () => {
           {/* FOOTER / CONTACT (Always visible late scroll) */}
           <div ref={contactPanelRef} className="absolute bottom-6 md:bottom-12 right-6 md:right-12 z-50 flex flex-col gap-4 items-end">
              <button className="group relative flex items-center gap-3 bg-lime-400 text-neutral-900 px-6 py-3 rounded-full font-bold hover:bg-white transition-all shadow-[0_0_20px_rgba(163,230,53,0.3)]">
-                <span className="uppercase tracking-wide">Скачать CV</span>
+                <span className="uppercase tracking-wide">Скачать CV (PDF)</span>
                 <Download size={20} className="group-hover:translate-y-1 transition-transform" />
              </button>
              
