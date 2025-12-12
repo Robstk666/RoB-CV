@@ -481,7 +481,7 @@ const App: React.FC = () => {
           {/* FOOTER / CONTACT (Always visible late scroll) */}
           <div ref={contactPanelRef} className="absolute bottom-6 md:bottom-12 right-6 md:right-12 z-50 flex flex-col gap-4 items-end">
              <button className="group relative flex items-center gap-3 bg-lime-400 text-neutral-900 px-6 py-3 rounded-full font-bold hover:bg-white transition-all shadow-[0_0_20px_rgba(163,230,53,0.3)]">
-                <span className="uppercase tracking-wide">Скачать CV</span>
+                <span className="uppercase tracking-wide">Скачать CV (PDF)</span>
                 <Download size={20} className="group-hover:translate-y-1 transition-transform" />
              </button>
              
