@@ -263,7 +263,7 @@ const App: React.FC = () => {
               ref={heroNameRef}
               className="font-display text-[12vw] md:text-[13vw] leading-none text-neutral-800 uppercase tracking-tighter text-center whitespace-nowrap opacity-100 mix-blend-color-dodge select-none"
             >
-              ГРЖИМАЙЛО <br /> РОБЕРТ
+              ДЕННИС <br /> РОДМАН
             </h1>
           </div>
 
@@ -315,7 +315,7 @@ const App: React.FC = () => {
               flex flex-col
               /* Desktop Styles override */
               md:absolute md:top-0 md:left-0 md:w-1/3 md:h-full md:bg-transparent md:border-none md:shadow-none md:z-20 md:p-12 md:justify-center
-              ${isMobileDnaOpen ? 'h-auto max-h-[85vh]' : 'h-[70px] md:h-full'}
+              ${isMobileDnaOpen ? 'h-auto max-h-[90vh]' : 'h-[70px] md:h-full'}
             `}
           >
              {/* CONTENT CONTAINER - Handles scrolling for mobile when open, centered for desktop */}
@@ -323,7 +323,7 @@ const App: React.FC = () => {
               w-full h-full md:my-auto md:min-h-min overflow-hidden 
               /* Desktop Overflow Fix: Enable scroll if content is tall (8 projects) */
               md:max-h-screen md:overflow-y-auto custom-scrollbar
-              ${isMobileDnaOpen ? 'overflow-y-auto' : ''}
+              ${isMobileDnaOpen ? 'overflow-y-auto pb-20' : ''}
             `}>
               
               {/* CARD CONTAINER */}
@@ -385,7 +385,7 @@ const App: React.FC = () => {
                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-4 flex items-center gap-2">
                    <Award size={14} className="text-lime-400" /> Проекты & Компании
                  </h3>
-                 <div className="grid grid-cols-2 gap-1 opacity-80 md:max-h-[30vh] md:overflow-y-auto custom-scrollbar pr-1">
+                 <div className="grid grid-cols-2 gap-1 opacity-80 pr-1">
                    {PROJECTS.map((project) => (
                      <button 
                       key={project.name} 

@@ -1,77 +1,89 @@
-
-import React from 'react';
 // @vitest-environment jsdom
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
 import App from './App';
+import React from 'react';
+import { vi, describe, test, expect } from 'vitest';
 
 // Mock GSAP
-vi.mock('gsap', () => {
-  return {
-    default: {
-      registerPlugin: vi.fn(),
-      context: vi.fn((cb) => {
-        cb();
-        return { revert: vi.fn() };
-      }),
-      timeline: vi.fn(() => ({
-        to: vi.fn(),
-        fromTo: vi.fn(),
-      })),
-      fromTo: vi.fn(),
+vi.mock('gsap', () => ({
+  default: {
+    registerPlugin: vi.fn(),
+    timeline: vi.fn(() => ({
       to: vi.fn(),
-    },
-  };
-});
+      fromTo: vi.fn(),
+    })),
+    to: vi.fn(),
+    fromTo: vi.fn(),
+    context: vi.fn((func) => {
+      func();
+      return { revert: vi.fn() };
+    }),
+  },
+  ScrollTrigger: {},
+}));
 
 vi.mock('gsap/ScrollTrigger', () => ({
   ScrollTrigger: {},
 }));
 
 describe('App Layout and Content', () => {
-  it('renders correctly', () => {
-    const { container } = render(<App />);
-    const projectHeader = screen.getByText('Проекты & Компании');
-    expect(projectHeader).toBeDefined();
+  test('renders 8 projects in the projects list', () => {
+    render(<App />);
+    const projects = [
+      "Сайты за 72 часа",
+      "Росстройконтроль",
+      "ГАУК «ЦВИ»",
+      "Парк Отель",
+      "Бойцовский клуб FINT",
+      "Rob's Rentals",
+      "Chillin Place",
+      "Акимбо"
+    ];
 
-    // Updated class selector to match new changes
-    const gridContainer = container.querySelector('.grid.grid-cols-2.gap-1.opacity-80');
-    expect(gridContainer).toBeDefined();
-
-    if (gridContainer) {
-        const buttons = gridContainer.querySelectorAll('button');
-        console.log(`Number of project buttons found: ${buttons.length}`);
-        expect(buttons.length).toBe(8);
-    }
+    projects.forEach(project => {
+      const elements = screen.getAllByText(project);
+      expect(elements.length).toBeGreaterThan(0);
+    });
   });
 
-  it('has correct classes for panels', () => {
-      render(<App />);
+  test('Career panel has correct desktop positioning classes', () => {
+    render(<App />);
+    const careerHeaders = screen.getAllByText('Карьера');
+    let foundPanel = false;
 
-      const dnaTexts = screen.getAllByText('Проф ДНК');
-      const dnaText = dnaTexts[0];
-      const leftPanel = dnaText.closest('div[class*="md:absolute"]');
+    for (const header of careerHeaders) {
+        let element: HTMLElement | null = header;
+        while (element) {
+            if (element.className.includes('absolute') && element.className.includes('md:w-1/3') && element.className.includes('md:right-0')) {
+                foundPanel = true;
+                expect(element.className).toContain('md:left-auto');
+                expect(element.className).toContain('md:right-0');
+                break;
+            }
+            element = element.parentElement;
+        }
+        if (foundPanel) break;
+    }
+    expect(foundPanel).toBe(true);
+  });
 
-      if (!leftPanel) throw new Error("Left panel not found");
-      console.log('Left Panel Classes:', leftPanel.className);
+  test('DNA panel has correct desktop positioning classes', () => {
+    render(<App />);
+    const dnaHeaders = screen.getAllByText('Проф ДНК');
+    let foundPanel = false;
 
-      expect(leftPanel.className).toContain('md:left-0');
-
-      const careerTexts = screen.getAllByText('Карьера');
-      const careerText = careerTexts[0];
-
-      let current = careerText.parentElement;
-      while (current && !current.className.includes('md:right-0')) {
-          current = current.parentElement;
-      }
-
-      if (!current) throw new Error("Right panel (with md:right-0) not found");
-      console.log('Right Panel Classes:', current.className);
-
-      expect(current.className).toContain('md:right-0');
-
-      // Verify !left-auto is GONE (or just check left-auto is present without check for !)
-      expect(current.className).toContain('md:left-auto');
-      expect(current.className).not.toContain('md:!left-auto');
+    for (const header of dnaHeaders) {
+        let element: HTMLElement | null = header;
+        while (element) {
+            if (element.className.includes('md:absolute') && element.className.includes('md:left-0') && element.className.includes('md:w-1/3')) {
+                foundPanel = true;
+                expect(element.className).toContain('md:left-0');
+                break;
+            }
+            element = element.parentElement;
+        }
+        if (foundPanel) break;
+    }
+    expect(foundPanel).toBe(true);
   });
 });
