@@ -385,7 +385,7 @@ const App: React.FC = () => {
                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-4 flex items-center gap-2">
                    <Award size={14} className="text-lime-400" /> Проекты & Компании
                  </h3>
-                 <div className="grid grid-cols-2 gap-1 opacity-80 md:max-h-[60vh] md:overflow-y-auto custom-scrollbar pr-1">
+                 <div className="grid grid-cols-2 gap-1 opacity-80 pr-1">
                    {PROJECTS.map((project) => (
                      <button 
                       key={project.name} 

@@ -1,77 +1,72 @@
-from playwright.sync_api import sync_playwright, expect
-import time
+from playwright.sync_api import Page, expect, sync_playwright
 
-def verify_layout():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        # Use a smaller height to check for cut-off content
-        context = browser.new_context(viewport={'width': 1280, 'height': 600})
-        page = context.new_page()
+def verify_layout(page: Page):
+    # 1. Load the page
+    page.goto("http://localhost:3000")
 
-        try:
-            page.goto("http://localhost:5173")
+    # 2. Wait for content to load (e.g., waiting for the hero name or main panels)
+    # The panels might be animated, but the structure should be there.
+    # We wait for the 'Проекты & Компании' section to be sure the projects list is rendered.
+    page.wait_for_selector("text=Проекты & Компании", timeout=10000)
 
-            print("Waiting for initial load...")
-            time.sleep(2)
+    # 3. Check for the presence of 8 project buttons
+    # We can query all buttons inside the grid.
+    # The grid has class "grid grid-cols-2 gap-1 opacity-80 pr-1"
 
-            # Scroll to reveal projects
-            print("Scrolling to reveal projects...")
-            page.evaluate("window.scrollTo(0, window.innerHeight * 3.0)")
-            time.sleep(5) # Wait for animation
+    # Note: the grid is inside the leftPanel which might be off-screen initially due to GSAP?
+    # Actually, GSAP animates them in.
+    # We might need to scroll or wait for animation.
+    # However, for existence in DOM, they should be there.
+    # We can try to force animation or just check DOM presence.
 
-            page.screenshot(path="verification/layout_small_height.png")
-            print("Screenshot saved.")
+    # Let's count the buttons in the projects section.
+    # Finding the container first
+    projects_container = page.locator("div.grid.grid-cols-2.gap-1.opacity-80.pr-1")
+    expect(projects_container).to_be_visible()
 
-            project_info = page.evaluate("""() => {
-                const h3s = Array.from(document.querySelectorAll('h3'));
-                const projectsHeader = h3s.find(h => h.innerText.includes('Проекты & Компании'));
-                if (!projectsHeader) return { count: 0, msg: "Header not found" };
+    buttons = projects_container.locator("button")
+    count = buttons.count()
+    print(f"Found {count} project buttons")
 
-                const container = projectsHeader.parentElement;
-                // Container is the 'mega clients' div.
-                // We want to check if the buttons are visible within the SCROLLABLE container.
+    if count != 8:
+        raise Exception(f"Expected 8 project buttons, found {count}")
 
-                // The scrollable container is the parent of the parent of the header?
-                // Header -> div (mega clients) -> div (scrollable container)
-                const scrollContainer = container.parentElement;
+    # 4. Verify Layout Positions (via classes/styles check roughly)
+    # Check Right Panel (Career) has right-0
+    career_panel = page.locator("text=Карьера").locator("xpath=../../..") # Going up to the container
+    # The container has 'absolute top-0 left-0 ... md:right-0'
+    # Since we are running in headless chrome (likely desktop size by default), we check classes.
+    # But Playwright sees computed styles.
 
-                const grid = container.querySelector('.grid');
-                const buttons = grid.querySelectorAll('button');
+    # We can also just check that the element is bounding box is on the right side.
+    box = career_panel.bounding_box()
+    viewport_width = page.viewport_size['width']
 
-                let visibleCount = 0;
-                const scrollRect = scrollContainer.getBoundingClientRect();
+    # If on desktop (default 1280x720 usually), right panel width is 1/3 ~ 426px.
+    # x should be around 1280 - 426 = 854.
+    # But wait, GSAP might animate it from x: 120%.
+    # We need to wait for animation or scrub scroll.
 
-                buttons.forEach(b => {
-                     const rect = b.getBoundingClientRect();
-                     // Check if button is within the viewport of the scroll container
-                     // And also generally visible
-                     const isVisible = (
-                        rect.top >= scrollRect.top &&
-                        rect.bottom <= scrollRect.bottom &&
-                        rect.height > 0
-                     );
+    # Let's scroll to trigger animations?
+    # The ScrollTrigger scrubs with scroll.
+    # We can scroll down.
+    page.mouse.wheel(0, 1000)
+    page.wait_for_timeout(2000) # Wait for animation
 
-                     // Also check if it is within window viewport
-                     const isInWindow = (
-                        rect.top >= 0 &&
-                        rect.bottom <= window.innerHeight
-                     );
-
-                     if (isVisible) visibleCount++;
-                });
-
-                return {
-                    totalButtons: buttons.length,
-                    visibleCount: visibleCount,
-                    scrollContainerHeight: scrollContainer.clientHeight,
-                    windowHeight: window.innerHeight,
-                    msg: "OK"
-                };
-            }""")
-            print("Project Info:", project_info)
-
-        finally:
-            browser.close()
+    # 5. Take Screenshot
+    page.screenshot(path="/app/verification/layout_verification.png")
 
 if __name__ == "__main__":
-    verify_layout()
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        # Set viewport to desktop size
+        page = browser.new_page(viewport={"width": 1280, "height": 800})
+        try:
+            verify_layout(page)
+            print("Verification successful!")
+        except Exception as e:
+            print(f"Verification failed: {e}")
+            page.screenshot(path="/app/verification/failure.png")
+            raise
+        finally:
+            browser.close()
