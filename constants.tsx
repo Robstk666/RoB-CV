@@ -91,8 +91,8 @@ export const PROJECTS: Project[] = [
     category: "Culture / Gov",
     description: "Операционное управление Центром Визуального Искусства. Запуск новых направлений, организация масштабных мероприятий, взаимодействие с Департаментом культуры.",
     images: [
-      "https://images.unsplash.com/photo-1514525253440-b39345208668?q=80&w=1000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1507676184212-d0370baf12ce?q=80&w=1000&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1517486518908-97a5f91b325f?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1596445836561-991bcd39a86d?q=80&w=1000&auto=format&fit=crop"
     ]
   },
   {
@@ -109,7 +109,7 @@ export const PROJECTS: Project[] = [
     category: "Sport / Events",
     description: "Развитие спортивного направления на базе отеля. Организация турниров, сборов, запуск бойцовского клуба, маркетинг спортивных мероприятий.",
     images: [
-      "https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1716307043003-dbe6a5cc496e?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=1000&auto=format&fit=crop"
     ]
   },

@@ -290,7 +290,7 @@ const App: React.FC = () => {
                {/* Overlay Name for context if hero text fades too much */}
                <div className="absolute bottom-16 w-full text-center px-4 z-20">
                   <p className="text-lime-400 font-bold tracking-[0.3em] text-xs md:text-sm drop-shadow-lg uppercase bg-neutral-900/50 inline-block px-4 py-2 rounded-full backdrop-blur-sm border border-white/10">
-                    Business Development Manager
+                    Business Development Lead
                   </p>
                </div>
 
@@ -385,7 +385,7 @@ const App: React.FC = () => {
                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-4 flex items-center gap-2">
                    <Award size={14} className="text-lime-400" /> Проекты & Компании
                  </h3>
-                 <div className="grid grid-cols-2 gap-2 opacity-80">
+                 <div className="grid grid-cols-2 gap-1 opacity-80 md:max-h-[30vh] md:overflow-y-auto custom-scrollbar pr-1">
                    {PROJECTS.map((project) => (
                      <button 
                       key={project.name} 
@@ -481,7 +481,7 @@ const App: React.FC = () => {
           {/* FOOTER / CONTACT (Always visible late scroll) */}
           <div ref={contactPanelRef} className="absolute bottom-6 md:bottom-12 right-6 md:right-12 z-50 flex flex-col gap-4 items-end">
              <button className="group relative flex items-center gap-3 bg-lime-400 text-neutral-900 px-6 py-3 rounded-full font-bold hover:bg-white transition-all shadow-[0_0_20px_rgba(163,230,53,0.3)]">
-                <span className="uppercase tracking-wide">Скачать CV</span>
+                <span className="uppercase tracking-wide">Скачать CV (PDF)</span>
                 <Download size={20} className="group-hover:translate-y-1 transition-transform" />
              </button>
              
